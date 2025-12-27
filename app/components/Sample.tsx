@@ -18,23 +18,52 @@ type FeatureRefs = {
 const ThirdSection = () => {
   const featuresRef = useRef<FeatureRefs[]>([]);
 
+  // Intro refs
+  const introRef = useRef<HTMLDivElement | null>(null);
+  const introTitleRef = useRef<HTMLHeadingElement | null>(null);
+  const introTextRef = useRef<HTMLParagraphElement | null>(null);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (introRef.current) {
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: introRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          })
+          .from(introTitleRef.current, {
+            y: 32,
+            opacity: 0,
+            duration: 0.9,
+            ease: "power3.out",
+          })
+          .from(
+            introTextRef.current,
+            {
+              y: 20,
+              opacity: 0,
+              duration: 0.8,
+              ease: "power2.out",
+            },
+            "-=0.55"
+          );
+      }
+
       featuresRef.current.forEach((refs, index) => {
         if (!refs.container) return;
 
         const tl = gsap.timeline({
           delay: Math.min(index * 0.18, 0.4),
-
           scrollTrigger: {
             trigger: refs.container,
             start: "top 75%",
-            end: "bottom 60%",
-            toggleActions: "play none none reverse",
+            once: true,
           },
         });
 
-        // Image reveal (architectural weight)
         tl.fromTo(
           refs.image,
           {
@@ -49,7 +78,6 @@ const ThirdSection = () => {
           }
         )
 
-          // Number
           .from(
             refs.number,
             {
@@ -58,10 +86,9 @@ const ThirdSection = () => {
               duration: 0.6,
               ease: "power2.out",
             },
-            "-=0.6"
+            "-=0.2"
           )
 
-          // Title
           .from(
             refs.title,
             {
@@ -73,7 +100,6 @@ const ThirdSection = () => {
             "-=0.45"
           )
 
-          // Description
           .from(
             refs.text,
             {
@@ -85,7 +111,6 @@ const ThirdSection = () => {
             "-=0.5"
           );
 
-        // Hover micro-interaction
         if (refs.image) {
           refs.image.addEventListener("mouseenter", () => {
             gsap.to(refs.image, {
@@ -127,11 +152,14 @@ const ThirdSection = () => {
   return (
     <section className="relative w-full px-6 sm:px-12 lg:px-24 py-10 bg-[linear-gradient(to_bottom,#ECEEF1_0%,#F4F1EC_65%,#ECE9E4_100%)]">
       {/* Section intro */}
-      <div className="mb-20 max-w-3xl">
-        <h2 className="text-[clamp(1.8rem,3vw,3rem)] font-[outfit] font-semibold text-[#1E1E1E]">
+      <div ref={introRef} className="mb-20 max-w-3xl">
+        <h2
+          ref={introTitleRef}
+          className="text-[clamp(1.8rem,3vw,3rem)] font-[outfit] font-semibold text-[#1E1E1E]"
+        >
           Vertical Intelligence
         </h2>
-        <p className="mt-4 text-[#5A5A5A] max-w-xl">
+        <p ref={introTextRef} className="mt-4 text-[#5A5A5A] max-w-xl">
           Every layer of the tower is engineered with purpose, clarity, and
           architectural intent.
         </p>
@@ -155,7 +183,6 @@ const ThirdSection = () => {
               className="object-cover"
             />
           </div>
-
           <div>
             <span
               ref={setFeatureRef(0, "number")}
@@ -196,7 +223,6 @@ const ThirdSection = () => {
               priority
             />
           </div>
-
           <div>
             <span
               ref={setFeatureRef(1, "number")}
@@ -236,7 +262,6 @@ const ThirdSection = () => {
               className="object-cover"
             />
           </div>
-
           <div>
             <span
               ref={setFeatureRef(2, "number")}
