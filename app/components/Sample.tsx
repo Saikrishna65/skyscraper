@@ -10,6 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 type FeatureRefs = {
   container: HTMLDivElement | null;
   image: HTMLDivElement | null;
+  imageMove: HTMLDivElement | null;
+  hoverData: HTMLDivElement | null;
   number: HTMLSpanElement | null;
   title: HTMLHeadingElement | null;
   text: HTMLParagraphElement | null;
@@ -22,6 +24,8 @@ const ThirdSection = () => {
   const introRef = useRef<HTMLDivElement | null>(null);
   const introTitleRef = useRef<HTMLHeadingElement | null>(null);
   const introTextRef = useRef<HTMLParagraphElement | null>(null);
+
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -111,22 +115,44 @@ const ThirdSection = () => {
             "-=0.5"
           );
 
-        if (refs.image) {
-          refs.image.addEventListener("mouseenter", () => {
-            gsap.to(refs.image, {
-              scale: 1.03,
-              duration: 0.6,
-              ease: "power2.out",
-            });
+        gsap.to(refs.imageMove, {
+          y: isMobile ? 50 : 80,
+          scrollTrigger: {
+            trigger: refs.container,
+            start: "top 50%",
+            end: "bottom 30%",
+            scrub: 1,
+          },
+        });
+
+        if (refs.image && refs.hoverData && !isMobile) {
+          const moveX = gsap.quickTo(refs.hoverData, "x", {
+            duration: 0.2,
+            ease: "power3.out",
           });
 
-          refs.image.addEventListener("mouseleave", () => {
-            gsap.to(refs.image, {
-              scale: 1,
-              duration: 0.6,
-              ease: "power2.out",
-            });
+          const moveY = gsap.quickTo(refs.hoverData, "y", {
+            duration: 0.2,
+            ease: "power3.out",
           });
+
+          const onMove = (e: MouseEvent) => {
+            const bounds = refs.image!.getBoundingClientRect();
+            moveX(e.clientX - bounds.left);
+            moveY(e.clientY - bounds.top);
+          };
+
+          const onEnter = () => {
+            gsap.set(refs.hoverData, { opacity: 1 });
+          };
+
+          const onLeave = () => {
+            gsap.set(refs.hoverData, { opacity: 0 });
+          };
+
+          refs.image.addEventListener("mousemove", onMove);
+          refs.image.addEventListener("mouseenter", onEnter);
+          refs.image.addEventListener("mouseleave", onLeave);
         }
       });
     });
@@ -140,6 +166,8 @@ const ThirdSection = () => {
         featuresRef.current[index] = {
           container: null,
           image: null,
+          imageMove: null,
+          hoverData: null,
           number: null,
           title: null,
           text: null,
@@ -150,16 +178,19 @@ const ThirdSection = () => {
   };
 
   return (
-    <section className="relative w-full px-6 sm:px-12 lg:px-24 py-10 bg-[linear-gradient(to_bottom,#ECEEF1_0%,#F4F1EC_65%,#ECE9E4_100%)]">
+    <section className="relative w-full px-6 sm:px-12 lg:px-24 py-10 bg-[linear-gradient(to_bottom,#ECEEF1_0%,#F4F1EC_65%,#f2f0ec_100%)] bg-[#]">
       {/* Section intro */}
       <div ref={introRef} className="mb-20 max-w-3xl">
         <h2
           ref={introTitleRef}
-          className="text-[clamp(1.8rem,3vw,3rem)] font-[outfit] font-semibold text-[#1E1E1E]"
+          className="text-[clamp(0.5rem,7vw,2.8rem)] font-[mons] font-semibold text-[#1E1E1E]"
         >
           Vertical Intelligence
         </h2>
-        <p ref={introTextRef} className="mt-4 text-[#5A5A5A] max-w-xl">
+        <p
+          ref={introTextRef}
+          className="mt-[clamp(0.5rem,4vw,1rem)] text-[#5A5A5A] max-w-xl text-[clamp(0.5rem,4vw,1.1rem)] font-[outfit]"
+        >
           Every layer of the tower is engineered with purpose, clarity, and
           architectural intent.
         </p>
@@ -176,29 +207,42 @@ const ThirdSection = () => {
             ref={setFeatureRef(0, "image")}
             className="relative w-full aspect-[3/4] overflow-hidden"
           >
-            <Image
-              src="/images/print.png"
-              alt="Vertical Zones"
-              fill
-              className="object-cover"
-            />
+            <div
+              ref={setFeatureRef(0, "imageMove")}
+              className="absolute inset-0 -top-10"
+            >
+              <Image
+                src="/images/print.png"
+                alt="Vertical Zones"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div
+              ref={setFeatureRef(0, "hoverData")}
+              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50"
+            >
+              <div className="rounded-md bg-black/80 tracking-wider px-3 py-1 text-xs text-white font-[outfit]">
+                20-4-2015
+              </div>
+            </div>
           </div>
           <div>
             <span
               ref={setFeatureRef(0, "number")}
-              className="text-sm tracking-widest text-[#7A7A7A]"
+              className="text-sm tracking-widest text-[#7A7A7A] font-[outfit]"
             >
               01
             </span>
             <h3
               ref={setFeatureRef(0, "title")}
-              className="mt-2 text-xl font-semibold text-[#1E1E1E]"
+              className="mt-2 text-xl font-semibold text-[#1E1E1E] font-[mons]"
             >
               Vertical Zones
             </h3>
             <p
               ref={setFeatureRef(0, "text")}
-              className="mt-2 text-[#5A5A5A] text-sm leading-relaxed"
+              className="mt-2 text-[#5A5A5A] text-sm leading-relaxed font-[outfit]"
             >
               Public realms, workplaces, and private residences composed into a
               single continuous vertical city.
@@ -215,30 +259,43 @@ const ThirdSection = () => {
             ref={setFeatureRef(1, "image")}
             className="relative w-full aspect-[3/4] overflow-hidden"
           >
-            <Image
-              src="/images/construction.png"
-              alt="Construction"
-              fill
-              className="object-cover"
-              priority
-            />
+            <div
+              ref={setFeatureRef(1, "imageMove")}
+              className="absolute inset-0 -top-10"
+            >
+              <Image
+                src="/images/construction.png"
+                alt="Construction"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div
+              ref={setFeatureRef(1, "hoverData")}
+              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50"
+            >
+              <div className="rounded-md bg-black/80 tracking-wider px-3 py-1 text-xs text-white font-[outfit]">
+                12-7-2019
+              </div>
+            </div>
           </div>
           <div>
             <span
               ref={setFeatureRef(1, "number")}
-              className="text-sm tracking-widest text-[#7A7A7A]"
+              className="text-sm tracking-widest text-[#7A7A7A] font-[outfit]"
             >
               02
             </span>
             <h3
               ref={setFeatureRef(1, "title")}
-              className="mt-2 text-xl font-semibold text-[#1E1E1E]"
+              className="mt-2 text-xl font-semibold text-[#1E1E1E] font-[mons]"
             >
               Construction
             </h3>
             <p
               ref={setFeatureRef(1, "text")}
-              className="mt-2 text-[#5A5A5A] text-sm leading-relaxed"
+              className="mt-2 text-[#5A5A5A] text-sm leading-relaxed font-[outfit]"
             >
               A high-performance structural system engineered to sustain extreme
               verticality with absolute precision.
@@ -255,29 +312,42 @@ const ThirdSection = () => {
             ref={setFeatureRef(2, "image")}
             className="relative w-full aspect-[3/4] overflow-hidden"
           >
-            <Image
-              src="/images/systems_img.png"
-              alt="Integrated Systems"
-              fill
-              className="object-cover"
-            />
+            <div
+              ref={setFeatureRef(2, "imageMove")}
+              className="absolute inset-0 -top-10"
+            >
+              <Image
+                src="/images/systems_img.png"
+                alt="Integrated Systems"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div
+              ref={setFeatureRef(2, "hoverData")}
+              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50"
+            >
+              <div className="rounded-md bg-black/80 tracking-wider px-3 py-1 text-xs text-white font-[outfit]">
+                16-11-2024
+              </div>
+            </div>
           </div>
           <div>
             <span
               ref={setFeatureRef(2, "number")}
-              className="text-sm tracking-widest text-[#7A7A7A]"
+              className="text-sm tracking-widest text-[#7A7A7A] font-[outfit]"
             >
               03
             </span>
             <h3
               ref={setFeatureRef(2, "title")}
-              className="mt-2 text-xl font-semibold text-[#1E1E1E]"
+              className="mt-2 text-xl font-semibold text-[#1E1E1E] font-[mons]"
             >
               Integrated Systems
             </h3>
             <p
               ref={setFeatureRef(2, "text")}
-              className="mt-2 text-[#5A5A5A] text-sm leading-relaxed"
+              className="mt-2 text-[#5A5A5A] text-sm leading-relaxed font-[outfit]"
             >
               Circulation, climate, and energy systems integrated to operate as
               one cohesive architectural organism.

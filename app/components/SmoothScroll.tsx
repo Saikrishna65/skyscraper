@@ -14,6 +14,13 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   useLayoutEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    if (isMobile) {
+      ScrollTrigger.refresh();
+      return;
+    }
+
     const lenis = new Lenis({
       smoothWheel: true,
       lerp: 0.08,

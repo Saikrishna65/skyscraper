@@ -20,7 +20,7 @@ export default function FadeHeading({
     const ctx = gsap.context(() => {
       gsap.to(textRef.current, {
         opacity: 1,
-        duration: 1.6,
+        duration: 1.3,
         filter: "blur(0px)",
         ease: "sine.out",
         delay: 0.25,
