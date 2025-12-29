@@ -1,13 +1,17 @@
 import React from "react";
 import Hero from "./components/Hero";
-import ThirdSection from "./components/Sample";
+import Construction from "./components/Construction";
+import Inside from "./components/Inside";
+import Materials from "./components/Materials";
 
 const page = () => {
   return (
     <>
       <Hero />
-      <ThirdSection />
-      <div className="w-full h-screen bg-white"></div>
+      <Construction />
+      <Inside />
+      <Materials />
+      <div className="w-full h-screen bg-[#f2f0ec]"></div>
     </>
   );
 };

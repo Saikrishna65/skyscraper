@@ -136,15 +136,24 @@ const Hero = () => {
       </div>
 
       {/* STATS */}
-      <div className="stats-section text-[#1E1E1E] py-4 w-full bg-linear-to-b from-[#A8CAED] to-[#ECEEF1]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-24">
-          <div className="mt-[15vh] pb-20 sm:mt-40 grid grid-cols-1 md:grid-cols-2 gap-[10vh] sm:gap-24 items-start">
+      <div className="stats-section text-[#1E1E1E] px-6 sm:px-12 lg:px-24 py-4 w-full bg-linear-to-b from-[#A8CAED] to-[#ECEEF1]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mt-[15vh] pb-20 sm:mt-40 grid grid-cols-1 md:grid-cols-2 gap-[10vh] sm:gap-20 items-start">
             {/* LEFT */}
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-semibold mb-6 font-[mons]">
+            {/* <div>
+              <h2 className="text-[clamp(0.5rem,7vw,2.8rem)] font-semibold mb-6 font-[mons]">
                 Scale & Presence
               </h2>
               <p className="text-[#5A5A5A] text-lg leading-relaxed max-w-md font-[outfit]">
+                VERTICA is an exploration of extreme verticality, where a single
+                structure becomes an entire city.
+              </p>
+            </div> */}
+            <div>
+              <h2 className="text-[clamp(0.5rem,7vw,2.8rem)] font-[mons] font-semibold text-[#1E1E1E]">
+                Scale & Presence
+              </h2>
+              <p className="mt-[clamp(0.5rem,4vw,1rem)] text-[#5A5A5A] max-w-xl text-[clamp(0.5rem,4vw,1.1rem)] font-[outfit]">
                 VERTICA is an exploration of extreme verticality, where a single
                 structure becomes an entire city.
               </p>

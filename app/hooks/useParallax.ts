@@ -25,7 +25,6 @@ export function useParallax(items: ParallaxItem[]) {
         const el = document.querySelector(target) as HTMLElement | null;
         if (!el) return null;
 
-        // GPU hint
         el.style.willChange = "transform";
 
         return { el, speed };
@@ -51,7 +50,6 @@ export function useParallax(items: ParallaxItem[]) {
       }
     };
 
-    // Initial sync
     onScroll();
 
     window.addEventListener("scroll", onScroll, { passive: true });
