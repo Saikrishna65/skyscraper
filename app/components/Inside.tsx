@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -17,6 +17,14 @@ export default function Inside() {
   const setImgRef = (el: HTMLDivElement | null, index: number) => {
     if (el) imgRefs.current[index] = el;
   };
+
+  useEffect(() => {
+    ScrollTrigger.config({
+      autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
+    });
+
+    ScrollTrigger.normalizeScroll(true);
+  }, []);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
