@@ -185,7 +185,7 @@ const Construction = () => {
           ref={introTitleRef}
           className="text-[clamp(0.5rem,7vw,2.8rem)] font-[mons] font-semibold text-[#1E1E1E]"
         >
-          Vertical Intelligence
+          The Making of the Tower
         </h2>
         <p
           ref={introTextRef}

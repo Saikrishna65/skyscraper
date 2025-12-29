@@ -33,7 +33,7 @@ const Materials = () => {
       tl.from(headingRef.current, {
         opacity: 0,
         y: 16,
-        duration: 0.7,
+        duration: 0.5,
         ease: "power2.out",
       });
 
@@ -41,7 +41,7 @@ const Materials = () => {
       tl.from(mainImageRef.current, {
         opacity: 0,
         y: 40,
-        duration: 1.1,
+        duration: 1,
         ease: "power3.out",
       });
 
@@ -81,12 +81,12 @@ const Materials = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full min-h-screen bg-[#f2f0ec]">
+    <div ref={sectionRef} className="w-full min-h-screen bg-[#f2f0ec] mt-20">
       {/* HEADING */}
       <div className="h-[10%] w-full lg:-mb-10 flex items-center justify-center">
         <h2
           ref={headingRef}
-          className="text-[clamp(0.5rem,7vw,2.8rem)] text-center opacity-90 font-[space] font-bold text-[#1E1E1E]"
+          className="text-[clamp(0.5rem,7vw,2.8rem)] text-center opacity-90 font-[mons] font-bold text-[#1E1E1E]"
         >
           The Anatomy of the Tower
         </h2>

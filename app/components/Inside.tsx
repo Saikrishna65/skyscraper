@@ -20,30 +20,63 @@ export default function Inside() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-      if (!isDesktop) return;
+      const mm = gsap.matchMedia();
 
-      const panels = [panel1Ref.current, panel2Ref.current, panel3Ref.current];
+      mm.add("(min-width: 1024px)", () => {
+        const panels = [
+          panel1Ref.current!,
+          panel2Ref.current!,
+          panel3Ref.current!,
+        ].filter(Boolean);
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          start: "top top",
-          end: () =>
-            "+=" + (panel1Ref.current?.offsetWidth || window.innerWidth) * 2,
+        panels.forEach((p) =>
+          gsap.set(p, { willChange: "transform", force3D: true })
+        );
+        imgRefs.current.forEach((img) =>
+          gsap.set(img, { willChange: "transform", force3D: true })
+        );
 
-          scrub: 1.8,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+        const panelWidth = panels[0]?.offsetWidth || window.innerWidth;
+        const distance = panelWidth * (panels.length - 1);
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${distance}`,
+            pin: true,
+            scrub: 0.6,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(
+          panels,
+          { xPercent: -100 * (panels.length - 1), ease: "none" },
+          0
+        );
+
+        imgRefs.current.forEach((img, i) => {
+          const strength = i === 0 ? 12 : i === 1 ? 18 : 24; // percent-like movement
+          tl.to(
+            img,
+            {
+              x: () => `-${panelWidth * (strength / 100)}`, // pixel-based small parallax
+              ease: "none",
+            },
+            0
+          );
+        });
+
+        return () => {
+          tl.kill();
+        };
       });
 
-      tl.to(panels, { xPercent: -200, ease: "none" }, 0);
-
-      imgRefs.current.forEach((img, i) => {
-        tl.to(img, { x: -100, ease: "none" }, "<");
-      });
+      return () => {
+        mm.revert();
+      };
     }, sectionRef);
 
     return () => ctx.revert();
