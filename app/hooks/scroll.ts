@@ -8,27 +8,17 @@ gsap.registerPlugin(ScrollToPlugin);
 
 export default function AutoScrollRecorder() {
   useEffect(() => {
-    // Get the total scrollable height
-    const scrollHeight = document.body.scrollHeight - window.innerHeight;
+    if (typeof window === "undefined") return;
 
-    // Scroll the page smoothly from top to bottom
+    const scrollHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+
     gsap.to(window, {
       scrollTo: { y: scrollHeight },
-      duration: 35, // total time in seconds
-      ease: "linear", // uniform speed
-      onComplete: () => {
-        console.log("Scroll complete!");
-      },
+      duration: 20,
+      ease: "linear",
     });
-
-    // Optional: Scroll back to top after 2 seconds for repeat
-    // gsap.to(window, {
-    //   scrollTo: { y: 0 },
-    //   delay: 22,
-    //   duration: 5,
-    //   ease: "linear",
-    // });
   }, []);
 
-  return null; // No UI needed
+  return null;
 }
