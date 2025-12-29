@@ -9,7 +9,6 @@ import Construction from "./components/Construction";
 import Inside from "./components/Inside";
 import Materials from "./components/Materials";
 import SingleDay from "./components/SingleDay";
-import AutoScrollRecorder from "./hooks/scroll";
 import Final from "./components/Final";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,7 +24,6 @@ const Page = () => {
 
   return (
     <>
-      {/* <AutoScrollRecorder /> */}
       <Hero />
       <Construction />
       <Inside />
