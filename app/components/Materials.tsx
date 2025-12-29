@@ -57,7 +57,7 @@ const Materials = () => {
             duration: 0.9,
             ease: "power3.out",
           },
-          "-=0.5"
+          "-=0.8"
         );
       }
 
@@ -68,11 +68,11 @@ const Materials = () => {
           {
             opacity: 0,
             y: 20,
-            stagger: 0.1,
+            stagger: 0.3,
             duration: 0.8,
             ease: "power2.out",
           },
-          "-=0.4"
+          "-=0.6"
         );
       }
     }, sectionRef);
@@ -86,9 +86,9 @@ const Materials = () => {
       <div className="h-[10%] w-full lg:-mb-10 flex items-center justify-center">
         <h2
           ref={headingRef}
-          className="text-[clamp(0.5rem,7vw,2.8rem)] text-center opacity-95 font-[mons] font-semibold text-[#1E1E1E]"
+          className="text-[clamp(0.5rem,7vw,2.8rem)] text-center opacity-90 font-[space] font-bold text-[#1E1E1E]"
         >
-          Material & Structural Systems
+          The Anatomy of the Tower
         </h2>
       </div>
 

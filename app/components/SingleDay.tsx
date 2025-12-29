@@ -1,0 +1,140 @@
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const TOTAL_FRAMES = 192;
+
+export default function SingleDay() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const scaleRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  const frame = { current: 0 };
+
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current!;
+    const ctx = canvas.getContext("2d")!;
+    const images: HTMLImageElement[] = [];
+
+    canvas.width = 1920;
+    canvas.height = 1080;
+
+    // Preload frames
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.src = `/videos/frames/frame_${String(i + 1).padStart(4, "0")}.png`;
+      images.push(img);
+    }
+
+    const render = (index: number) => {
+      const img = images[index];
+      if (!img || !img.complete) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+
+    images[0].onload = () => render(0);
+
+    // ENTRY SCALE (before pin)
+    gsap.from(scaleRef.current, {
+      scale: 0.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 70%",
+        end: "top top",
+        scrub: 1,
+      },
+    });
+
+    // PINNED SECTION
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top top",
+      end: "+=300%",
+      scrub: true,
+      pin: true,
+      anticipatePin: 1,
+
+      onUpdate: (self) => {
+        const frameIndex = Math.min(
+          TOTAL_FRAMES - 1,
+          Math.floor(self.progress * TOTAL_FRAMES)
+        );
+
+        render(frameIndex);
+
+        // TEXT LOGIC (unchanged)
+        if (frameIndex >= 30 && frameIndex <= 100) {
+          gsap.to(".day-text", { opacity: 1, y: 0, duration: 0.2 });
+        } else {
+          gsap.to(".day-text", { opacity: 0, y: -20, duration: 0.2 });
+        }
+
+        if (frameIndex >= 135) {
+          gsap.to(".night-text", { opacity: 1, y: 0, duration: 0.2 });
+        } else {
+          gsap.to(".night-text", { opacity: 0, y: 20, duration: 0.2 });
+        }
+
+        // ✅ FIXED SCALE EXIT (smooth + deterministic)
+        const t = gsap.utils.clamp(0, 1, (self.progress - 0.85) / 0.15);
+
+        gsap.set(scaleRef.current, {
+          scale: gsap.utils.interpolate(1, 0.8, t),
+        });
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-[#f2f0ec] bg-blac"
+    >
+      <div ref={scaleRef} className="relative w-full h-full">
+        {/* 🎥 CANVAS */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+
+        {/* 📝 TEXT OVERLAY */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-end text-white">
+          <div
+            className="relative w-[90vw] sm:w-[70vw] md:w-[45vw] lg:w-[35vw] 
+          px-4 sm:px-6 font-[outfit]
+          lg:mr-[8vw]"
+          >
+            {/* 🌞 DAY */}
+            <h2 className="day-text absolute opacity-0 text-2xl sm:text-3xl lg:text-4xl font-semibold">
+              <p className="tracking-wide">Daylight Expression</p>
+              <p className="mt-4 hidden sm:block text-sm opacity-95 lg:leading-relaxed font-[space]">
+                As the sun moves across the sky, the tower reveals its
+                structure, rhythm, and motion shaping its identity.
+              </p>
+            </h2>
+
+            {/* 🌙 NIGHT */}
+            <h2 className="night-text absolute opacity-0 text-2xl sm:text-3xl lg:text-4xl font-semibold">
+              <p className="tracking-wide">Nighttime Identity</p>
+              <p className="mt-4 hidden sm:block text-sm lg:leading-relaxed font-[space]">
+                After dark, the building becomes a quiet landmark — illuminated,
+                composed, and present within the city skyline.
+              </p>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

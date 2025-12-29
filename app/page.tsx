@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import Construction from "./components/Construction";
 import Inside from "./components/Inside";
 import Materials from "./components/Materials";
+import SingleDay from "./components/SingleDay";
 
 const page = () => {
   return (
@@ -11,6 +12,7 @@ const page = () => {
       <Construction />
       <Inside />
       <Materials />
+      <SingleDay />
       <div className="w-full h-screen bg-[#f2f0ec]"></div>
     </>
   );

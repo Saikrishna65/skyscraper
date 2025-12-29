@@ -220,11 +220,15 @@ const Construction = () => {
             </div>
             <div
               ref={setFeatureRef(0, "hoverData")}
-              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50"
+              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50 flex items-center gap-3"
             >
-              <div className="rounded-md bg-black/80 tracking-wider px-3 py-1 text-xs text-white font-[outfit]">
-                20-4-2015
-              </div>
+              <span className="h-10 w-px" />
+
+              <span className="px-2 py-[2px] backdrop-blur-md bg-black/30 rounded-sm">
+                <span className="text-[11px] tracking-[0.3em] uppercase font-bold text-white font-[outfit]">
+                  20 · 04 · 2015
+                </span>
+              </span>
             </div>
           </div>
           <div>
@@ -273,11 +277,15 @@ const Construction = () => {
             </div>
             <div
               ref={setFeatureRef(1, "hoverData")}
-              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50"
+              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50 flex items-center gap-3"
             >
-              <div className="rounded-md bg-black/80 tracking-wider px-3 py-1 text-xs text-white font-[outfit]">
-                12-7-2019
-              </div>
+              <span className="h-10 w-px" />
+
+              <span className="px-2 py-[2px] backdrop-blur-md bg-black/30 rounded-sm">
+                <span className="text-[11px] tracking-[0.3em] uppercase font-bold text-white font-[outfit]">
+                  12 · 07 · 2019
+                </span>
+              </span>
             </div>
           </div>
           <div>
@@ -325,11 +333,15 @@ const Construction = () => {
             </div>
             <div
               ref={setFeatureRef(2, "hoverData")}
-              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50"
+              className="pointer-events-none fixed left-0 top-0 opacity-0 z-50 flex items-center gap-3"
             >
-              <div className="rounded-md bg-black/80 tracking-wider px-3 py-1 text-xs text-white font-[outfit]">
-                16-11-2024
-              </div>
+              <span className="h-10 w-px" />
+
+              <span className="px-2 py-[2px] backdrop-blur-md bg-black/30 rounded-sm">
+                <span className="text-[11px] tracking-[0.3em] uppercase font-bold text-white font-[outfit]">
+                  16 · 11 · 2025
+                </span>
+              </span>
             </div>
           </div>
           <div>
