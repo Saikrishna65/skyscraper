@@ -8,8 +8,6 @@ import gsap from "gsap";
 import FadeHeading from "./FadeHeading";
 
 const Hero = () => {
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
   useParallax([
     { target: "[data-parallax='sky']", speed: 0.01 },
     { target: "[data-parallax='cloud']", speed: -0.2 },
@@ -22,6 +20,7 @@ const Hero = () => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
     if (isMobile) {
       document.body.style.overflow = "auto";
       document.documentElement.style.overflow = "auto";
