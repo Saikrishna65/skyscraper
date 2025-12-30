@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
-import Image from "next/image";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Inside() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -15,101 +18,76 @@ export default function Inside() {
     if (el) imgRefs.current[index] = el;
   };
 
-  // ✅ Safe ScrollTrigger config (browser only)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-      gsap.registerPlugin(ScrollTrigger);
-
-      ScrollTrigger.config({
-        autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
-      });
-
-      ScrollTrigger.normalizeScroll(true);
-    });
-  }, []);
-
-  // ✅ GSAP animation (browser only)
   useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
 
-    let ctx: gsap.Context | undefined;
+      mm.add("(min-width: 1024px)", () => {
+        const panels = [
+          panel1Ref.current!,
+          panel2Ref.current!,
+          panel3Ref.current!,
+        ].filter(Boolean);
 
-    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-      gsap.registerPlugin(ScrollTrigger);
+        panels.forEach((p) =>
+          gsap.set(p, { willChange: "transform", force3D: true })
+        );
+        imgRefs.current.forEach((img) =>
+          gsap.set(img, { willChange: "transform", force3D: true })
+        );
 
-      ctx = gsap.context(() => {
-        const mm = gsap.matchMedia();
+        const panelWidth = panels[0]?.offsetWidth || window.innerWidth;
+        const distance = panelWidth * (panels.length - 1);
 
-        mm.add("(min-width: 1024px)", () => {
-          const panels = [
-            panel1Ref.current,
-            panel2Ref.current,
-            panel3Ref.current,
-          ].filter(Boolean) as HTMLDivElement[];
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${distance}`,
+            pin: true,
+            pinType: "transform",
+            pinSpacing: true,
+            scrub: 1.5,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
 
-          panels.forEach((p) =>
-            gsap.set(p, { willChange: "transform", force3D: true })
-          );
+        tl.to(
+          panels,
+          { xPercent: -100 * (panels.length - 1), ease: "none" },
+          0
+        );
 
-          imgRefs.current.forEach((img) =>
-            gsap.set(img, { willChange: "transform", force3D: true })
-          );
-
-          const panelWidth = panels[0]?.offsetWidth ?? window.innerWidth;
-          const distance = panelWidth * (panels.length - 1);
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: `+=${distance}`,
-              pin: true,
-              scrub: 0.6,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-
+        imgRefs.current.forEach((img, i) => {
+          const strength = i === 0 ? 12 : i === 1 ? 18 : 24; // percent-like movement
           tl.to(
-            panels,
+            img,
             {
-              xPercent: -100 * (panels.length - 1),
+              x: () => `-${panelWidth * (strength / 100)}`, // pixel-based small parallax
               ease: "none",
             },
             0
           );
-
-          imgRefs.current.forEach((img, i) => {
-            const strength = i === 0 ? 12 : i === 1 ? 18 : 24;
-
-            tl.to(
-              img,
-              {
-                x: -(panelWidth * (strength / 100)),
-                ease: "none",
-              },
-              0
-            );
-          });
-
-          return () => tl.kill();
         });
 
-        return () => mm.revert();
-      }, sectionRef);
-    });
+        return () => {
+          tl.kill();
+        };
+      });
 
-    return () => {
-      ctx?.revert();
-    };
+      return () => {
+        mm.revert();
+      };
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-x-hidden bg-[#f2f0ec]"
+      className="relative will-change-transform transform-gpu w-full overflow-x-hidden bg-[#f2f0ec]"
     >
       <div
         className="

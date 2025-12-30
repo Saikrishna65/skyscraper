@@ -57,11 +57,12 @@ export default function SingleDay() {
     const ctxGSAP = gsap.context(() => {
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: "top top+=0.5",
+        start: "top top",
         end: "+=300%",
         scrub: 1.2,
         pin: true,
         pinSpacing: true,
+        pinType: "transform",
         anticipatePin: 1,
         invalidateOnRefresh: true,
 
@@ -108,7 +109,7 @@ export default function SingleDay() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-[#f2f0ec] bg-blac"
+      className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-[#f2f0ec] will-change-transform transform-gpu"
     >
       <div ref={scaleRef} className="relative w-full h-full">
         <canvas
