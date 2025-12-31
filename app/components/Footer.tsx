@@ -17,7 +17,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 md:mt-20 flex flex-col items-center gap-6">
+        <div className="mt-8 md:mt-20 flex flex-col items-center gap-6">
           <div className="text-center text-[10px] sm:text-xs md:text-sm text-[#5A5A5A] font-[space]">
             Designed & developed by Sai Krishna · 2025
           </div>

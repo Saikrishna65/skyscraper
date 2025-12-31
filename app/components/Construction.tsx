@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ImageWithLoader from "./ImageWithLoader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -211,7 +212,7 @@ const Construction = () => {
               ref={setFeatureRef(0, "imageMove")}
               className="absolute inset-0 -top-10"
             >
-              <Image
+              <ImageWithLoader
                 src="/images/print.png"
                 alt="Vertical Zones"
                 fill
@@ -267,7 +268,7 @@ const Construction = () => {
               ref={setFeatureRef(1, "imageMove")}
               className="absolute inset-0 -top-10"
             >
-              <Image
+              <ImageWithLoader
                 src="/images/construction.png"
                 alt="Construction"
                 fill
@@ -324,7 +325,7 @@ const Construction = () => {
               ref={setFeatureRef(2, "imageMove")}
               className="absolute inset-0 -top-10"
             >
-              <Image
+              <ImageWithLoader
                 src="/images/systems_img.png"
                 alt="Integrated Systems"
                 fill

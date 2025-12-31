@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { initParallax } from "../hooks/useParallax";
 import FloatingMotion from "./FloatingMotion";
 import FadeHeading from "./FadeHeading";
+import ImageWithLoader from "./ImageWithLoader";
 
 const Hero = () => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -72,7 +73,7 @@ const Hero = () => {
   return (
     <>
       <div className="relative min-h-[100svh] sm:h-[140vh] w-full flex justify-center">
-        <Image
+        <ImageWithLoader
           data-parallax="sky"
           src="/images/sky8.png"
           alt="sky"
@@ -86,7 +87,7 @@ const Hero = () => {
           className="absolute inset-0 bg-white opacity-0 pointer-events-none"
         />
 
-        <Image
+        <ImageWithLoader
           src="/images/down17.png"
           alt="ground"
           width={600}
@@ -102,7 +103,7 @@ const Hero = () => {
         >
           <FloatingMotion duration={35} distance={80}>
             <div className="absolute top-10 left-4 sm:left-20 w-[clamp(120px,25vw,300px)] aspect-3/4">
-              <Image
+              <ImageWithLoader
                 src="/images/cloud_1.png"
                 alt="cloud"
                 fill
@@ -118,7 +119,7 @@ const Hero = () => {
           data-parallax="birds"
           className="absolute z-10 opacity-50 top-16 right-4 sm:right-30 w-[clamp(50px,20vw,150px)] aspect-3/5"
         >
-          <Image
+          <ImageWithLoader
             src="/images/birds.png"
             alt="birds"
             fill
@@ -137,7 +138,7 @@ const Hero = () => {
 
         {/* ✅ BUILDING */}
         <div className="absolute bottom-0 sm:bottom-20 z-20 w-full max-w-200 mx-auto h-[95svh] sm:h-[120vh] pointer-events-none overflow-hidden">
-          <Image
+          <ImageWithLoader
             data-parallax="building"
             src="/images/building_2.png"
             alt="Building"
