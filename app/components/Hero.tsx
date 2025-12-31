@@ -1,26 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import React, { useLayoutEffect, useRef } from "react";
-import FloatingMotion from "./FloatingMotion";
-import { useParallax } from "../hooks/useParallax";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { initParallax } from "../hooks/useParallax";
+import FloatingMotion from "./FloatingMotion";
 import FadeHeading from "./FadeHeading";
 
 const Hero = () => {
-  useParallax([
-    { target: "[data-parallax='sky']", speed: 0.01 },
-    { target: "[data-parallax='cloud']", speed: -0.2 },
-    { target: "[data-parallax='heading']", speed: -0.1 },
-    { target: "[data-parallax='tag']", speed: 0.1 },
-    { target: "[data-parallax='birds']", speed: -0.2 },
-    { target: "[data-parallax='building']", speed: 0.25 },
-  ]);
-
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useEffect(() => {
+    const cleanup = initParallax(
+      [
+        { target: "[data-parallax='sky']", speed: 0.01 },
+        { target: "[data-parallax='cloud']", speed: 0.1 },
+        { target: "[data-parallax='heading']", speed: -0.1 },
+        { target: "[data-parallax='tag']", speed: 0.1 },
+        { target: "[data-parallax='birds']", speed: 0.1 },
+        { target: "[data-parallax='building']", speed: 0.25 },
+      ],
+      768,
+      0.06
+    );
+
+    return cleanup;
+  }, []);
 
   useLayoutEffect(() => {
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    if (typeof window === "undefined") return;
+
     if (isMobile) {
       document.body.style.overflow = "auto";
       document.documentElement.style.overflow = "auto";
@@ -37,19 +51,19 @@ const Hero = () => {
         repeat: -1,
         yoyo: true,
       });
-    });
 
-    gsap.from(".stat-item", {
-      opacity: 0,
-      y: 14,
-      duration: 0.7,
-      stagger: 0.08,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".stats-section",
-        start: "top 40%",
-        once: true,
-      },
+      gsap.from(".stat-item", {
+        opacity: 0,
+        y: 14,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".stats-section",
+          start: "top 40%",
+          once: true,
+        },
+      });
     });
 
     return () => ctx.revert();

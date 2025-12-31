@@ -1,70 +1,50 @@
-import { useEffect, useRef } from "react";
+// hooks/parallax.ts
+export function initParallax(
+  config: { target: string; speed: number }[],
+  breakpoint = 768,
+  ease = 0.08 // 👈 smaller = smoother
+) {
+  if (typeof window === "undefined") return () => {};
 
-type ParallaxItem = {
-  target: string;
-  speed: number;
-};
+  // 🚫 Disable on mobile / touch
+  if (
+    window.innerWidth < breakpoint ||
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0
+  ) {
+    return () => {};
+  }
 
-export function useParallax(items: ParallaxItem[]) {
-  const rafRef = useRef<number | null>(null);
-  const lastScrollY = useRef(0);
+  const items = config.flatMap(({ target, speed }) =>
+    Array.from(document.querySelectorAll<HTMLElement>(target)).map((el) => ({
+      el,
+      speed,
+      currentY: 0,
+      targetY: 0,
+    }))
+  );
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  let scrollY = window.scrollY;
+  let rafId: number;
 
-    // ✅ MOBILE DETECTION INSIDE HOOK
-    const isMobile =
-      window.matchMedia("(max-width: 767px)").matches ||
-      "ontouchstart" in window;
+  const lerp = (a: number, b: number, n: number) => a + (b - a) * n;
 
-    // ⛔ Disable parallax completely on mobile
-    if (isMobile) return;
+  const animate = () => {
+    scrollY = window.scrollY;
 
-    const elements = items
-      .map(({ target, speed }) => {
-        const el = document.querySelector(target) as HTMLElement | null;
-        if (!el) return null;
+    items.forEach((item) => {
+      item.targetY = scrollY * item.speed;
+      item.currentY = lerp(item.currentY, item.targetY, ease);
 
-        el.style.willChange = "transform";
+      item.el.style.transform = `translate3d(0, ${item.currentY}px, 0)`;
+    });
 
-        return { el, speed };
-      })
-      .filter(Boolean) as { el: HTMLElement; speed: number }[];
+    rafId = requestAnimationFrame(animate);
+  };
 
-    if (!elements.length) return;
+  rafId = requestAnimationFrame(animate);
 
-    const update = () => {
-      rafRef.current = null;
-      const scrollY = lastScrollY.current;
-
-      for (const { el, speed } of elements) {
-        el.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
-      }
-    };
-
-    const onScroll = () => {
-      lastScrollY.current = window.scrollY;
-
-      if (rafRef.current === null) {
-        rafRef.current = requestAnimationFrame(update);
-      }
-    };
-
-    onScroll();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-
-      for (const { el } of elements) {
-        el.style.transform = "";
-        el.style.willChange = "";
-      }
-    };
-  }, [items]);
+  return () => {
+    cancelAnimationFrame(rafId);
+  };
 }
