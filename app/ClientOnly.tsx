@@ -1,0 +1,11 @@
+"use client";
+
+import dynamic from "next/dynamic";
+
+const PageClient = dynamic(() => import("./PageClient"), {
+  ssr: false,
+});
+
+export default function ClientOnly() {
+  return <PageClient />;
+}
