@@ -6,8 +6,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 240;
-const PRIORITY_FRAMES = 50;
+const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+const TOTAL_FRAMES = isMobile ? 120 : 240;
+const PRIORITY_FRAMES = isMobile ? 12 : 50;
 
 export default function SingleDay() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -74,6 +76,26 @@ export default function SingleDay() {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     };
 
+    let rafId: number | null = null;
+    let lastFrame = -1;
+
+    const drawFrame = (frameIndex: number) => {
+      if (frameIndex === lastFrame) return;
+
+      if (rafId) return;
+
+      rafId = requestAnimationFrame(() => {
+        for (let i = frameIndex; i >= 0; i--) {
+          if (images[i]?.complete) {
+            render(i);
+            lastFrame = i;
+            break;
+          }
+        }
+        rafId = null;
+      });
+    };
+
     // ---------------- GSAP CONTEXT ----------------
     const ctxGSAP = gsap.context(() => {
       // -------- ENTRY SCALE --------
@@ -108,13 +130,7 @@ export default function SingleDay() {
             (progress * (TOTAL_FRAMES - 1)) | 0
           );
 
-          // render nearest available frame
-          for (let i = targetFrame; i >= 0; i--) {
-            if (images[i]?.complete) {
-              render(i);
-              break;
-            }
-          }
+          drawFrame(targetFrame);
 
           // ---- TEXT VISIBILITY ----
           gsap.set(".day-text", {
