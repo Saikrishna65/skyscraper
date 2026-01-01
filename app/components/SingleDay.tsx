@@ -91,11 +91,14 @@ export default function SingleDay() {
       // -------- PIN + FRAME SCRUB --------
       ScrollTrigger.create({
         trigger: section,
-        start: "top+=1 top",
+        start: "top+=80 top",
         end: "+=300%",
-        scrub: 0.8,
         pin: true,
-        anticipatePin: 0.8,
+        pinType: "transform",
+        pinSpacing: true,
+        scrub: 1.5,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
 
         onUpdate: (self) => {
           const progress = self.progress;
@@ -144,16 +147,13 @@ export default function SingleDay() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-[#f2f0ec] will-change-transform transform-gpu"
+      className="relative pt-20 w-full overflow-hidden flex items-center justify-center bg-[#f2f0ec] will-change-transform transform-gpu"
     >
       <div
         ref={scaleRef}
-        className="relative w-full h-full will-change-transform transform-gpu"
+        className="relative bg-black w-full h-full will-change-transform transform-gpu"
       >
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <canvas ref={canvasRef} className="h-screen w-full object-cover" />
 
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-end text-white">
           <div
