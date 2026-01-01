@@ -212,7 +212,7 @@ const Construction = () => {
               ref={setFeatureRef(0, "imageMove")}
               className="absolute inset-0 -top-10"
             >
-              <ImageWithLoader
+              <Image
                 src="/images/print.webp"
                 alt="Vertical Zones"
                 fill
@@ -268,7 +268,7 @@ const Construction = () => {
               ref={setFeatureRef(1, "imageMove")}
               className="absolute inset-0 -top-10"
             >
-              <ImageWithLoader
+              <Image
                 src="/images/construction.webp"
                 alt="Construction"
                 fill
@@ -325,7 +325,7 @@ const Construction = () => {
               ref={setFeatureRef(2, "imageMove")}
               className="absolute inset-0 -top-10"
             >
-              <ImageWithLoader
+              <Image
                 src="/images/completed.webp"
                 alt="Integrated Systems"
                 fill

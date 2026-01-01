@@ -42,7 +42,7 @@ export default function RootLayout({
       </head>
 
       <body>
-        <PreloadProvider totalAssets={8}>
+        <PreloadProvider totalAssets={5}>
           <Loader />
 
           <SmoothScroll>{children}</SmoothScroll>
