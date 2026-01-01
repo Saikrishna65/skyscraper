@@ -1,5 +1,5 @@
-import PageClient from "./PageClient";
+import ClientOnly from "./ClientOnly";
 
 export default function Page() {
-  return <PageClient />;
+  return <ClientOnly />;
 }
