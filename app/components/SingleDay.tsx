@@ -6,8 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 192;
-const PRIORITY_FRAMES = 24; // ⭐ only load these first
+const TOTAL_FRAMES = 240;
+const PRIORITY_FRAMES = 50;
 
 export default function SingleDay() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -39,7 +39,7 @@ export default function SingleDay() {
       if (images[i]) return;
 
       const img = new Image();
-      img.src = `/videos/frames/frame_${String(i + 1).padStart(4, "0")}.png`;
+      img.src = `/videos/frames/frame_${String(i + 1).padStart(4, "0")}.webp`;
       images[i] = img;
     };
 
@@ -82,7 +82,7 @@ export default function SingleDay() {
           scrollTrigger: {
             trigger: section,
             start: "top 70%",
-            end: "top top",
+            end: "top top-=70",
             scrub: 1.2,
           },
         })
