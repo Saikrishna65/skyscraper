@@ -14,10 +14,6 @@ const Materials = () => {
   const floatingRefs = useRef<HTMLDivElement[]>([]);
   const textRefs = useRef<HTMLDivElement[]>([]);
 
-  // reset arrays on each render to avoid duplicates
-  floatingRefs.current = [];
-  textRefs.current = [];
-
   useLayoutEffect(() => {
     if (!sectionRef.current || !mainImageRef.current) return;
 
@@ -98,7 +94,7 @@ const Materials = () => {
           <div className="relative w-full h-[70%]">
             <div
               ref={(el) => {
-                if (el) textRefs.current.push(el);
+                if (el) textRefs.current[0] = el;
               }}
               className="font-[outfit] text-[#5A5A5A] px-1 lg:px-5 xl:pl-10 lg:absolute lg:top-5 lg:h-[30%] lg:flex lg:items-center lg:justify-center lg:w-[90%]"
             >
@@ -108,7 +104,7 @@ const Materials = () => {
 
             <div
               ref={(el) => {
-                if (el) textRefs.current.push(el);
+                if (el) textRefs.current[1] = el;
               }}
               className="font-[outfit] text-[#5A5A5A] px-1 lg:px-5 lg:absolute lg:bottom-10 lg:left-8 lg:h-[30%] lg:flex lg:items-center lg:justify-center lg:w-[90%]"
             >
@@ -177,7 +173,7 @@ const Materials = () => {
           <div className="relative w-full h-[70%]">
             <div
               ref={(el) => {
-                if (el) textRefs.current.push(el);
+                if (el) textRefs.current[2] = el;
               }}
               className="font-[outfit] text-[#5A5A5A] px-1 lg:px-7 lg:absolute lg:top-10 lg:h-[30%] lg:flex lg:items-center lg:justify-center lg:w-[90%]"
             >
@@ -187,7 +183,7 @@ const Materials = () => {
 
             <div
               ref={(el) => {
-                if (el) textRefs.current.push(el);
+                if (el) textRefs.current[3] = el;
               }}
               className="font-[outfit] text-[#5A5A5A] px-1 lg:px-7 lg:absolute lg:bottom-5 lg:left-8 lg:h-[30%] lg:flex lg:items-center lg:justify-center lg:w-[90%]"
             >
