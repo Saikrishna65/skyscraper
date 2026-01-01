@@ -213,7 +213,7 @@ const Construction = () => {
               className="absolute inset-0 -top-10"
             >
               <ImageWithLoader
-                src="/images/print.png"
+                src="/images/print.webp"
                 alt="Vertical Zones"
                 fill
                 className="object-cover"
@@ -269,7 +269,7 @@ const Construction = () => {
               className="absolute inset-0 -top-10"
             >
               <ImageWithLoader
-                src="/images/construction.png"
+                src="/images/construction.webp"
                 alt="Construction"
                 fill
                 className="object-cover"
@@ -326,7 +326,7 @@ const Construction = () => {
               className="absolute inset-0 -top-10"
             >
               <ImageWithLoader
-                src="/images/systems_img.png"
+                src="/images/completed.webp"
                 alt="Integrated Systems"
                 fill
                 className="object-cover"

@@ -75,7 +75,7 @@ const Hero = () => {
       <div className="relative min-h-[100svh] sm:h-[140vh] w-full flex justify-center">
         <ImageWithLoader
           data-parallax="sky"
-          src="/images/sky8.png"
+          src="/images/sky.webp"
           alt="sky"
           fill
           priority
@@ -88,7 +88,7 @@ const Hero = () => {
         />
 
         <ImageWithLoader
-          src="/images/down17.png"
+          src="/images/down.webp"
           alt="ground"
           width={600}
           height={400}
@@ -104,7 +104,7 @@ const Hero = () => {
           <FloatingMotion duration={35} distance={80}>
             <div className="absolute top-10 left-4 sm:left-20 w-[clamp(120px,25vw,300px)] aspect-3/4">
               <ImageWithLoader
-                src="/images/cloud_1.png"
+                src="/images/cloud.webp"
                 alt="cloud"
                 fill
                 priority
@@ -120,7 +120,7 @@ const Hero = () => {
           className="absolute z-10 opacity-50 top-16 right-4 sm:right-30 w-[clamp(50px,20vw,150px)] aspect-3/5"
         >
           <ImageWithLoader
-            src="/images/birds.png"
+            src="/images/birds.webp"
             alt="birds"
             fill
             priority
@@ -140,7 +140,7 @@ const Hero = () => {
         <div className="absolute bottom-0 sm:bottom-20 z-20 w-full max-w-200 mx-auto h-[95svh] sm:h-[120vh] pointer-events-none overflow-hidden">
           <ImageWithLoader
             data-parallax="building"
-            src="/images/building_2.png"
+            src="/images/building.webp"
             alt="Building"
             fill
             priority

@@ -138,7 +138,7 @@ export default function Inside() {
               className="absolute inset-0 lg:-right-10"
             >
               <Image
-                src="/images/ground_floor2.png"
+                src="/images/ground_floor.webp"
                 alt="Ground floor"
                 fill
                 className="object-cover"
@@ -188,7 +188,7 @@ export default function Inside() {
               className="absolute inset-0 lg:-right-10"
             >
               <Image
-                src="/images/garden.png"
+                src="/images/garden.webp"
                 alt="Ground floor"
                 fill
                 className="object-cover"
@@ -235,7 +235,7 @@ export default function Inside() {
           >
             <div className="absolute inset-0 lg:-right-10">
               <Image
-                src="/images/top_floor.png"
+                src="/images/top_floor.webp"
                 alt="Ground floor"
                 fill
                 className="object-cover"

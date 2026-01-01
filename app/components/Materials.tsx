@@ -122,7 +122,7 @@ const Materials = () => {
             className="w-full sm:w-[80%] lg:w-[70%] aspect-[3/4] lg:h-[70%] relative"
           >
             <Image
-              src="/images/building_full1.png"
+              src="/images/building_full.webp"
               alt="Building"
               fill
               className="object-cover rounded-2xl"
@@ -130,7 +130,7 @@ const Materials = () => {
             />
 
             {/* FLOATING IMAGES – DESKTOP */}
-            {["glass", "concrete", "air_flow5", "iron"].map((img, i) => (
+            {["glass", "concrete", "air_flow", "iron"].map((img, i) => (
               <div
                 key={img}
                 ref={(el) => {
@@ -144,7 +144,7 @@ const Materials = () => {
                 `}
               >
                 <Image
-                  src={`/images/${img}.png`}
+                  src={`/images/${img}.webp`}
                   alt={img}
                   fill
                   className="object-cover rounded-2xl opacity-95"
