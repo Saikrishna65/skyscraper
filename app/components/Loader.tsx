@@ -1,33 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePreload } from "./PreloadProvider";
+import gsap from "gsap";
 
 const Loader = () => {
   const { loaded, total } = usePreload();
-  const [hide, setHide] = useState(false);
+  const loaderRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (loaded >= total) {
-      // small delay for smoothness
-      setTimeout(() => {
-        setHide(true);
-        document.body.style.overflow = "auto";
-      }, 500);
-    } else {
-      document.body.style.overflow = "hidden";
-    }
-  }, [loaded, total]);
-
-  if (hide) return null;
+  const [done, setDone] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const progress = Math.round((loaded / total) * 100);
 
+  // Track font loading
+  useEffect(() => {
+    document.fonts.ready.then(() => {
+      setFontsLoaded(true);
+    });
+  }, []);
+
+  // Exit animation
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    // Wait for BOTH images + fonts
+    if (loaded >= total && fontsLoaded && loaderRef.current) {
+      const tl = gsap.timeline({
+        delay: 0.3,
+        onComplete: () => {
+          document.body.style.overflow = "auto";
+          setDone(true);
+        },
+      });
+
+      tl.to(loaderRef.current, {
+        yPercent: -100,
+        duration: 1.2,
+        ease: "expo.inOut",
+      });
+    }
+  }, [loaded, total, fontsLoaded]);
+
+  if (done) return null;
+
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-white">
+    <div
+      ref={loaderRef}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-white"
+    >
       <div className="text-center space-y-4">
         <p className="text-xs tracking-widest uppercase">Loading</p>
-        <h1 className="text-4xl font-bold">{progress}%</h1>
+
+        <h1 className="text-4xl font-bold tabular-nums">{progress}%</h1>
+
         <div className="w-40 h-[2px] bg-white/20 overflow-hidden">
           <div
             className="h-full bg-white transition-all duration-300"

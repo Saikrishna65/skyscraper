@@ -12,22 +12,25 @@ body::-webkit-scrollbar {
 }
 
 @font-face {
-  font-family: "impact";
-  src: url("/fonts/Impact.ttf") format("truetype");
-}
-@font-face {
-  font-family: "bebas";
-  src: url("/fonts/Bebas.ttf") format("truetype");
-}
-@font-face {
   font-family: "outfit";
-  src: url("/fonts/outfit.ttf") format("truetype");
+  src: url("/fonts/outfit.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
   font-family: "mons";
-  src: url("/fonts/Mons.ttf") format("truetype");
+  src: url("/fonts/Mons.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
   font-family: "space";
-  src: url("/fonts/space.ttf") format("truetype");
+  src: url("/fonts/space.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
