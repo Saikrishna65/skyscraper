@@ -5,7 +5,7 @@ import { PreloadProvider } from "./components/PreloadProvider";
 import Loader from "./components/Loader";
 
 export const metadata: Metadata = {
-  title: "vertica",
+  title: "Vertica",
   description: "Vertica — the point where everything converges.",
 };
 
