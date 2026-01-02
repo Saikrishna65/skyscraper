@@ -7,6 +7,8 @@ import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const bgColors = ["#E6DFD3", "#D9E9CF", "#CBDCEB"];
+
 export default function Inside() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const panel1Ref = useRef<HTMLDivElement | null>(null);
@@ -39,6 +41,8 @@ export default function Inside() {
         const panelWidth = panels[0]?.offsetWidth || window.innerWidth;
         const distance = panelWidth * (panels.length - 1);
 
+        const panelCount = panels.length;
+
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -53,11 +57,37 @@ export default function Inside() {
           },
         });
 
-        tl.to(
-          panels,
-          { xPercent: -100 * (panels.length - 1), ease: "none" },
-          0
-        );
+        // move panels
+        tl.to(panels, {
+          xPercent: -100 * (panelCount - 1),
+          ease: "none",
+        });
+
+        const setBg = gsap.quickSetter(sectionRef.current, "backgroundColor");
+
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${distance}`,
+          scrub: true,
+          onUpdate(self) {
+            const panelProgress = self.progress * (panelCount - 1);
+
+            if (panelProgress < 1) {
+              setBg(
+                gsap.utils.interpolate(bgColors[0], bgColors[1], panelProgress)
+              );
+            } else {
+              setBg(
+                gsap.utils.interpolate(
+                  bgColors[1],
+                  bgColors[2],
+                  panelProgress - 1
+                )
+              );
+            }
+          },
+        });
 
         imgRefs.current.forEach((img, i) => {
           const strength = i === 0 ? 12 : i === 1 ? 18 : 24; // percent-like movement
@@ -87,7 +117,8 @@ export default function Inside() {
   return (
     <section
       ref={sectionRef}
-      className="relative will-change-transform transform-gpu w-full overflow-x-hidden bg-[#f2f0ec]"
+      className="relative will-change-transform transform-gpu w-full overflow-x-hidden"
+      style={{ backgroundColor: bgColors[0] }}
     >
       <div
         className="

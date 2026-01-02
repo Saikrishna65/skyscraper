@@ -50,11 +50,11 @@ const Loader = () => {
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-white text-black"
     >
       <div className="text-center space-y-4">
-        <p className="text-md font-[space] tracking-widest uppercase">
+        <p className="text-2xl  font-[outfit] font-bold tracking-widest uppercase">
           Building
         </p>
 
-        <h1 className="text-4xl font-bold tabular-nums font-[outfit]">
+        <h1 className="text-3xl sm:text-4xl font-bold tabular-nums font-[outfit]">
           {progress}%
         </h1>
 
