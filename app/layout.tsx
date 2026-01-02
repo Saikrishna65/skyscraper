@@ -5,8 +5,8 @@ import { PreloadProvider } from "./components/PreloadProvider";
 import Loader from "./components/Loader";
 
 export const metadata: Metadata = {
-  title: "Vertex",
-  description: "Vertex — the point where everything converges.",
+  title: "vertica",
+  description: "Vertica — the point where everything converges.",
 };
 
 export default function RootLayout({
