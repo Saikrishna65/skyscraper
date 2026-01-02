@@ -20,10 +20,10 @@ const Hero = () => {
     const cleanup = initParallax(
       [
         { target: "[data-parallax='sky']", speed: 0.01 },
-        { target: "[data-parallax='cloud']", speed: 0.1 },
+        { target: "[data-parallax='cloud']", speed: 0.2 },
         { target: "[data-parallax='heading']", speed: -0.1 },
         { target: "[data-parallax='tag']", speed: 0.1 },
-        { target: "[data-parallax='birds']", speed: 0.1 },
+        { target: "[data-parallax='birds']", speed: 0.2 },
         { target: "[data-parallax='building']", speed: 0.25 },
       ],
       768,

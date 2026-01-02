@@ -47,16 +47,20 @@ const Loader = () => {
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black text-white"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-white text-black"
     >
       <div className="text-center space-y-4">
-        <p className="text-xs tracking-widest uppercase">Loading</p>
+        <p className="text-md font-[space] tracking-widest uppercase">
+          Building
+        </p>
 
-        <h1 className="text-4xl font-bold tabular-nums">{progress}%</h1>
+        <h1 className="text-4xl font-bold tabular-nums font-[outfit]">
+          {progress}%
+        </h1>
 
-        <div className="w-40 h-[2px] bg-white/20 overflow-hidden">
+        <div className="w-40 h-[2px] bg-black/20 overflow-hidden">
           <div
-            className="h-full bg-white transition-all duration-300"
+            className="h-full bg-black transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
