@@ -38,7 +38,7 @@ export default function Footer() {
 function FooterItem({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#8A8A8A] font-[space]">
+      <p className="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#595959] font-[space]">
         {label}
       </p>
       <p className="mt-1 sm:mt-2 text-sm sm:text-base font-[outfit] text-[#1E1E1E]">

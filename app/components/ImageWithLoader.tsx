@@ -6,7 +6,23 @@ import { usePreload } from "./PreloadProvider";
 const ImageWithLoader = (props: ImageProps) => {
   const { increment } = usePreload();
 
-  return <Image {...props} onLoadingComplete={increment} onError={increment} />;
+  const { fill, sizes, onLoad, onError, ...rest } = props;
+
+  return (
+    <Image
+      {...rest}
+      fill={fill}
+      sizes={sizes ?? (fill ? "100vw" : undefined)}
+      onLoad={(e) => {
+        increment();
+        onLoad?.(e);
+      }}
+      onError={(e) => {
+        increment();
+        onError?.(e);
+      }}
+    />
+  );
 };
 
 export default ImageWithLoader;

@@ -10,11 +10,23 @@ import ImageWithLoader from "./ImageWithLoader";
 
 const Hero = () => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     setIsMobile(window.innerWidth < 768);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    if (isMobile) {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+      document.body.style.touchAction = "pan-y";
+    }
+  }, [mounted, isMobile]);
 
   useEffect(() => {
     const cleanup = initParallax(
@@ -34,14 +46,7 @@ const Hero = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
-
-    if (isMobile) {
-      document.body.style.overflow = "auto";
-      document.documentElement.style.overflow = "auto";
-      document.body.style.touchAction = "pan-y";
-    }
-
+    if (!mounted) return;
     if (!overlayRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -68,7 +73,7 @@ const Hero = () => {
     });
 
     return () => ctx.revert();
-  }, [isMobile]);
+  }, [mounted]);
 
   return (
     <>
