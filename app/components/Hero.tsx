@@ -28,6 +28,8 @@ const Hero = () => {
   }, [mounted, isMobile]);
 
   useEffect(() => {
+    if (isMobile) return;
+
     const cleanup = initParallax(
       [
         { target: "[data-parallax='sky']", speed: 0.01 },
@@ -42,7 +44,7 @@ const Hero = () => {
     );
 
     return cleanup;
-  }, []);
+  }, [isMobile]);
 
   useLayoutEffect(() => {
     if (!mounted) return;
