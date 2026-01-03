@@ -136,6 +136,15 @@ const Hero = () => {
           />
         </div>
 
+        <div
+          data-parallax="tag"
+          className="absolute top-[40%] right-10 lg:right-30 hidden md:block z-30"
+        >
+          <p className="text-[clamp(1rem,1.5vw,22rem)] font-[outfit] text-[#F5F7FA]">
+            A speculative tower redefining vertical limits
+          </p>
+        </div>
+
         {/* ✅ BUILDING */}
         <div className="absolute bottom-0 sm:bottom-20 z-20 w-full max-w-200 mx-auto h-[95svh] sm:h-[120vh] pointer-events-none overflow-hidden">
           <ImageWithLoader
