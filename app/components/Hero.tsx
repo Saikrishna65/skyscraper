@@ -5,7 +5,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { initParallax } from "../hooks/useParallax";
 import FloatingMotion from "./FloatingMotion";
-import FadeHeading from "./FadeHeading";
 import ImageWithLoader from "./ImageWithLoader";
 
 const Hero = () => {
@@ -106,7 +105,19 @@ const Hero = () => {
           data-parallax="cloud"
           className="absolute inset-0 z-20 pointer-events-none"
         >
-          <FloatingMotion duration={35} distance={80}>
+          {!isMobile ? (
+            <FloatingMotion duration={35} distance={80}>
+              <div className="absolute top-10 left-4 sm:left-20 w-[clamp(120px,25vw,300px)] aspect-3/4">
+                <ImageWithLoader
+                  src="/images/cloud.webp"
+                  alt="cloud"
+                  fill
+                  priority
+                  className="object-contain"
+                />
+              </div>
+            </FloatingMotion>
+          ) : (
             <div className="absolute top-10 left-4 sm:left-20 w-[clamp(120px,25vw,300px)] aspect-3/4">
               <ImageWithLoader
                 src="/images/cloud.webp"
@@ -116,7 +127,7 @@ const Hero = () => {
                 className="object-contain"
               />
             </div>
-          </FloatingMotion>
+          )}
         </div>
 
         {/* ✅ BIRDS */}
@@ -134,11 +145,10 @@ const Hero = () => {
         </div>
 
         {/* ✅ HEADING */}
-        <div data-parallax="heading" className="absolute top-5 z-15">
-          <FadeHeading
-            text="VERTICA"
-            className="text-[clamp(1rem,20vw,12rem)] font-[outfit] font-bold text-[#F5F7FA]"
-          />
+        <div data-parallax="heading" className="absolute sm:-top-5 z-15">
+          <div className="text-[clamp(1rem,20vw,12rem)] font-[outfit] font-bold text-[#F5F7FA]">
+            VERTICA
+          </div>
         </div>
 
         <div
