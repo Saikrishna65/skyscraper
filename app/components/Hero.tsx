@@ -111,7 +111,7 @@ const Hero = () => {
             <FloatingMotion duration={35} distance={80}>
               <div className="absolute top-10 left-4 sm:left-20 w-[clamp(120px,25vw,300px)] aspect-3/4">
                 <ImageWithLoader
-                  src="/images/cloud.webp"
+                  src="/images/cloud_img.webp"
                   alt="cloud"
                   fill
                   priority

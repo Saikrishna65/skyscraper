@@ -26,9 +26,8 @@ const Construction = () => {
   const introTitleRef = useRef<HTMLHeadingElement | null>(null);
   const introTextRef = useRef<HTMLParagraphElement | null>(null);
 
-  const isMobile = window.matchMedia("(max-width: 767px)").matches;
-
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const ctx = gsap.context(() => {
       if (introRef.current) {
         gsap
@@ -116,15 +115,19 @@ const Construction = () => {
             "-=0.5"
           );
 
-        gsap.to(refs.imageMove, {
-          y: isMobile ? 50 : 80,
-          scrollTrigger: {
-            trigger: refs.container,
-            start: "top 50%",
-            end: "bottom 20%",
-            scrub: 1,
-          },
-        });
+        if (!isMobile && refs.imageMove) {
+          gsap.to(refs.imageMove, {
+            y: 80,
+            scrollTrigger: {
+              trigger: refs.container,
+              start: "top 50%",
+              end: "bottom 20%",
+              scrub: 1,
+            },
+          });
+        } else if (isMobile && refs.imageMove) {
+          gsap.set(refs.imageMove, { y: 0 });
+        }
 
         if (refs.image && refs.hoverData && !isMobile) {
           const moveX = gsap.quickTo(refs.hoverData, "x", {
