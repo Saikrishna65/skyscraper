@@ -59,15 +59,15 @@ const Hero = () => {
         yoyo: true,
       });
 
-      gsap.from(".stat-item", {
+      gsap.from(".text", {
         opacity: 0,
         y: 14,
-        duration: 0.7,
-        stagger: 0.08,
+        duration: 0.5,
+        stagger: 0.5,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: ".stats-section",
-          start: "top 40%",
+          trigger: ".text-section",
+          start: "top 50%",
           once: true,
         },
       });
@@ -105,7 +105,7 @@ const Hero = () => {
         {/* ✅ CLOUD */}
         <div
           data-parallax="cloud"
-          className="absolute inset-0 z-20 pointer-events-none"
+          className="absolute inset-0 hidden sm:block z-20 pointer-events-none"
         >
           {!isMobile ? (
             <FloatingMotion duration={35} distance={80}>
@@ -157,8 +157,8 @@ const Hero = () => {
           data-parallax="tag"
           className="absolute top-[40%] right-10 lg:right-30 hidden md:block z-30"
         >
-          <p className="text-[clamp(1rem,1.5vw,22rem)] font-[outfit] text-[#F5F7FA]">
-            A speculative tower redefining vertical limits
+          <p className="text-[clamp(1rem,1.5vw,22rem)] font-[outfit] text-[#F5F7FA] opacity-80">
+            A speculative tower redefining vertical limits.
           </p>
         </div>
 
@@ -176,48 +176,17 @@ const Hero = () => {
       </div>
 
       {/* STATS */}
-      <div className="stats-section text-[#1E1E1E] px-6 sm:px-12 lg:px-24 py-4 w-full bg-linear-to-b from-[#A8CAED] to-[#ECEEF1]">
-        <div className="max-w-7xl mx-auto">
-          <div className="mt-[15vh] pb-20 sm:mt-40 grid grid-cols-1 md:grid-cols-2 gap-[10vh] sm:gap-20 items-start">
-            {/* LEFT */}
-            {/* <div>
-              <h2 className="text-[clamp(0.5rem,7vw,2.8rem)] font-semibold mb-6 font-[mons]">
-                Scale & Presence
-              </h2>
-              <p className="text-[#5A5A5A] text-lg leading-relaxed max-w-md font-[outfit]">
-                VERTICA is an exploration of extreme verticality, where a single
-                structure becomes an entire city.
-              </p>
-            </div> */}
-            <div>
-              <h2 className="text-[clamp(0.5rem,7vw,2.8rem)] font-[mons] font-semibold text-[#1E1E1E]">
-                Scale & Presence
-              </h2>
-              <p className="mt-[clamp(0.5rem,4vw,1rem)] text-[#5A5A5A] max-w-xl text-[clamp(0.5rem,4vw,1.1rem)] font-[outfit]">
-                VERTICA is an exploration of extreme verticality, where a single
-                structure becomes an entire city.
-              </p>
-            </div>
-
-            {/* RIGHT */}
-            <div className="grid grid-cols-2 gap-x-8 sm:gap-x-16 gap-y-14 font-[space]">
-              {[
-                ["1,024m", "Height"],
-                ["210", "Floors"],
-                ["Retail", "Program"],
-                ["30,000+", "Occupants"],
-              ].map(([value, label]) => (
-                <div key={label} className="stat-item">
-                  <div className="text-[clamp(1.5rem,5vw,3.5rem)] font-semibold">
-                    {value}
-                  </div>
-                  <div className="text-sm uppercase tracking-wide text-[#5A5A5A]">
-                    {label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+      <div className="text-section flex flex-col items-center gap-1 sm:gap-5 justify-center text-[#1E1E1E] pt-[15vh] sm:pt-[25vh] px-6 sm:px-12 lg:px-24 py-4 w-full bg-linear-to-b from-[#A8CAED] to-[#ECEEF1]">
+        <h2 className="text text-[clamp(0.5rem,7vw,3rem)] text-[#1F2933] opacity- font-[mons] font-semibold">
+          The Vision
+        </h2>
+        <div
+          className="text text-[clamp(0.2rem,4vw,2.2rem)] text-[#4B5563
+] text-center opacity-95 max-w-4xl font-[space] font-bold"
+        >
+          Every decision begins with the question of how people experience space
+          at <span className="text-[#2a77ca]">height</span> from the ground to
+          the sky.
         </div>
       </div>
     </>

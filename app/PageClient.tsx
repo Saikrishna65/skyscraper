@@ -10,6 +10,7 @@ import Materials from "./components/Materials";
 import SingleDay from "./components/SingleDay";
 import Footer from "./components/Footer";
 import Inside from "./components/Inside";
+import Scale from "./components/Scale";
 
 export default function PageClient() {
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function PageClient() {
   return (
     <>
       <Hero />
+      <Scale />
       <Construction />
       <Inside />
       <Materials />

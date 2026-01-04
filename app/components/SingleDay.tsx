@@ -26,9 +26,11 @@ export default function SingleDay() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // ---------------- CANVAS SETUP ----------------
-    canvas.width = 1920;
-    canvas.height = 1080;
+    // Adjust canvas for performance
+    const canvasWidth = isMobile ? 1080 : 1920;
+    const canvasHeight = isMobile ? 608 : 1080;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
@@ -36,69 +38,47 @@ export default function SingleDay() {
     const images: (HTMLImageElement | null)[] = new Array(TOTAL_FRAMES).fill(
       null
     );
+    const loadedFrames: boolean[] = new Array(TOTAL_FRAMES).fill(false);
 
+    // ---------- Load First Frame Immediately ----------
+    const firstImg = new Image();
+    firstImg.src = `/videos/frames/frame_0001.webp`;
+    firstImg.onload = () => {
+      images[0] = firstImg;
+      loadedFrames[0] = true;
+      ctx.drawImage(firstImg, 0, 0, canvas.width, canvas.height);
+    };
+
+    // ---------- Load Remaining Frames ----------
     const loadFrame = (i: number) => {
       if (images[i]) return;
-
       const img = new Image();
       img.src = `/videos/frames/frame_${String(i + 1).padStart(4, "0")}.webp`;
+      img.onload = () => (loadedFrames[i] = true);
       images[i] = img;
     };
 
-    // ---------------- PRIORITY LOAD ----------------
-    for (let i = 0; i < PRIORITY_FRAMES; i++) {
-      loadFrame(i);
-    }
+    // Load priority frames after first
+    for (let i = 1; i < PRIORITY_FRAMES; i++) loadFrame(i);
 
-    // Render first frame ASAP
-    images[0]!.onload = () => render(0);
-
-    // ---------------- BACKGROUND LOAD ----------------
-    const loadRemainingFrames = () => {
-      for (let i = PRIORITY_FRAMES; i < TOTAL_FRAMES; i++) {
-        loadFrame(i);
-      }
+    // Load remaining frames in background
+    const loadRemaining = () => {
+      for (let i = PRIORITY_FRAMES; i < TOTAL_FRAMES; i++) loadFrame(i);
     };
-
-    // Idle loading (non-blocking)
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(loadRemainingFrames);
-    } else {
-      setTimeout(loadRemainingFrames, 0);
-    }
+    if ("requestIdleCallback" in window) requestIdleCallback(loadRemaining);
+    else setTimeout(loadRemaining, 0);
 
     // ---------------- RENDER FUNCTION ----------------
-    const render = (index: number) => {
-      const img = images[index];
+    const renderFrame = (i: number) => {
+      const img = images[i];
       if (!img || !img.complete) return;
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     };
 
-    let rafId: number | null = null;
-    let lastFrame = -1;
-
-    const drawFrame = (frameIndex: number) => {
-      if (frameIndex === lastFrame) return;
-
-      if (rafId) return;
-
-      rafId = requestAnimationFrame(() => {
-        for (let i = frameIndex; i >= 0; i--) {
-          if (images[i]?.complete) {
-            render(i);
-            lastFrame = i;
-            break;
-          }
-        }
-        rafId = null;
-      });
-    };
-
-    // ---------------- GSAP CONTEXT ----------------
+    // ---------------- GSAP ----------------
     const ctxGSAP = gsap.context(() => {
-      // -------- ENTRY SCALE --------
+      // Scale animation
       gsap
         .timeline({
           scrollTrigger: {
@@ -110,45 +90,40 @@ export default function SingleDay() {
         })
         .fromTo(scaleRef.current, { scale: 0.5 }, { scale: 1 });
 
-      // -------- PIN + FRAME SCRUB --------
+      // Pin section + frame scrubbing
       ScrollTrigger.create({
         trigger: section,
         start: "top+=80 top",
         end: "+=300%",
         pin: true,
         pinType: "transform",
-        pinSpacing: true,
         scrub: 1.5,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-
         onUpdate: (self) => {
           const progress = self.progress;
+          let frameIndex = Math.floor(progress * (TOTAL_FRAMES - 1));
 
-          const targetFrame = Math.min(
-            TOTAL_FRAMES - 1,
-            (progress * (TOTAL_FRAMES - 1)) | 0
-          );
+          // If frame is not loaded, find nearest loaded frame
+          while (frameIndex > 0 && !loadedFrames[frameIndex]) frameIndex--;
 
-          drawFrame(targetFrame);
+          renderFrame(frameIndex);
 
-          // ---- TEXT VISIBILITY ----
+          // Text animations
           gsap.set(".day-text", {
             opacity: progress >= 0.15 && progress <= 0.55 ? 1 : 0,
             y: progress >= 0.15 && progress <= 0.55 ? 0 : -20,
           });
-
           gsap.set(".night-text", {
             opacity: progress >= 0.7 ? 1 : 0,
             y: progress >= 0.7 ? 0 : 20,
           });
 
-          // ---- EXIT SCALE ----
+          // Scale exit
           const scale =
             progress >= 0.85
               ? gsap.utils.mapRange(0.85, 1, 1, 0.9, progress)
               : 1;
-
           gsap.set(scaleRef.current!, { scale });
         },
       });
@@ -178,16 +153,16 @@ export default function SingleDay() {
           lg:mr-[8vw]"
           >
             <h2 className="day-text absolute opacity-0 text-2xl sm:text-3xl lg:text-4xl font-semibold">
-              <p className="tracking-wide">Daylight Expression</p>
-              <p className="mt-4 hidden sm:block text-sm opacity-95 lg:leading-relaxed font-[space]">
+              <p className="tracking-wide font-[space]">Daylight Expression</p>
+              <p className="mt-4 hidden sm:block text-sm opacity-95 lg:leading-relaxed font-[mons]">
                 As the sun moves across the sky, the tower reveals its
                 structure, rhythm, and motion shaping its identity.
               </p>
             </h2>
 
             <h2 className="night-text absolute opacity-0 text-2xl sm:text-3xl lg:text-4xl font-semibold">
-              <p className="tracking-wide">Nighttime Identity</p>
-              <p className="mt-4 hidden sm:block text-sm lg:leading-relaxed font-[space]">
+              <p className="tracking-wide font-[space]">Nighttime Identity</p>
+              <p className="mt-4 hidden sm:block text-sm lg:leading-relaxed font-[mons]">
                 After dark, the building becomes a quiet landmark — illuminated,
                 composed, and present within the city skyline.
               </p>

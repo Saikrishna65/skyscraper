@@ -246,14 +246,14 @@ const Construction = () => {
               ref={setFeatureRef(0, "title")}
               className="mt-2 text-xl font-semibold text-[#1E1E1E] font-[mons]"
             >
-              Vertical Zones
+              Blueprint
             </h3>
             <p
               ref={setFeatureRef(0, "text")}
               className="mt-2 text-[#5A5A5A] text-sm leading-relaxed font-[outfit]"
             >
-              Public realms, workplaces, and private residences composed into a
-              single continuous vertical city.
+              Defining structure, circulation, and vertical flow. Every zone is
+              planned for efficiency, safety, and experience.
             </p>
           </div>
         </div>
@@ -359,14 +359,14 @@ const Construction = () => {
               ref={setFeatureRef(2, "title")}
               className="mt-2 text-xl font-semibold text-[#1E1E1E] font-[mons]"
             >
-              Integrated Systems
+              Final Form
             </h3>
             <p
               ref={setFeatureRef(2, "text")}
               className="mt-2 text-[#5A5A5A] text-sm leading-relaxed font-[outfit]"
             >
-              Circulation, climate, and energy systems integrated to operate as
-              one cohesive architectural organism.
+              The building reaches its full expression—where engineering
+              precision meets architectural identity.
             </p>
           </div>
         </div>
