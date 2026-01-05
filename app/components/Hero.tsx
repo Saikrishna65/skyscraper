@@ -177,9 +177,6 @@ const Hero = () => {
 
       {/* STATS */}
       <div className="text-section flex flex-col items-center gap-1 sm:gap-5 justify-center text-[#1E1E1E] pt-[15vh] sm:pt-[25vh] px-6 sm:px-12 lg:px-24 py-4 w-full bg-linear-to-b from-[#A8CAED] to-[#ECEEF1]">
-        <h2 className="text text-[clamp(0.5rem,7vw,3rem)] text-[#1F2933] opacity- font-[mons] font-semibold">
-          The Vision
-        </h2>
         <div
           className="text text-[clamp(0.2rem,4vw,2.2rem)] text-[#4B5563
 ] text-center opacity-95 max-w-4xl font-[space] font-bold"
